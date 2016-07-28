@@ -4,7 +4,8 @@
 	var MyApp = global.MyApp,
 		createjs = global.createjs,
 		SignalBus = MyApp.SignalBus,
-		DemoEvents = MyApp.DemoEvents;
+		DemoEvents = MyApp.DemoEvents,
+		GameData = MyApp.GameData;
 	
 	//class
 	MyApp.DemoApp = function() { this.init.apply(this, arguments); };
@@ -83,7 +84,7 @@
 
 		setupComponents: function() {
 			this.signalBus = new SignalBus(this.app);
-			//this.lobbyModel = new LobbyModel(this.app);
+			this.gameData = new GameData(this.app);
 		},
 		
 		setupCommands: function() {

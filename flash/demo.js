@@ -1,6 +1,7 @@
 (function (lib, img, cjs, ss) {
 
 var p; // shortcut to reference prototypes
+lib.webFontTxtFilters = {}; 
 
 // library properties:
 lib.properties = {
@@ -9,6 +10,7 @@ lib.properties = {
 	fps: 25,
 	color: "#33CCCC",
 	opacity: 1.00,
+	webfonts: {},
 	manifest: []
 };
 
@@ -17,6 +19,13 @@ lib.properties = {
 lib.ssMetadata = [];
 
 
+lib.webfontAvailable = function(family) { 
+	lib.properties.webfonts[family] = true;
+	var txtFilters = lib.webFontTxtFilters && lib.webFontTxtFilters[family] || [];
+	for(var f = 0; f < txtFilters.length; ++f) {
+		txtFilters[f].updateCache();
+	}
+};
 // symbols:
 
 
@@ -406,6 +415,20 @@ p.nominalBounds = new cjs.Rectangle(0,0,359,60);
 p.nominalBounds = new cjs.Rectangle(0,-21,84.1,21);
 
 
+(lib.IncreaseBet = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#333333").s().p("AjwDQIDwmgIDxGgg");
+	this.shape.setTransform(24.2,20.9);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,48.4,41.8);
+
+
 (lib.FlipButton = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -422,6 +445,20 @@ p.nominalBounds = new cjs.Rectangle(0,-21,84.1,21);
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(-1.5,-1.5,90,90);
+
+
+(lib.DecreaseBet = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#333333").s().p("AjwjQIHhAAIjxGgg");
+	this.shape.setTransform(24.2,20.9);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,48.4,41.8);
 
 
 (lib.Coin = function(mode,startPosition,loop) {
@@ -465,6 +502,19 @@ p.nominalBounds = new cjs.Rectangle(-1.5,-1.5,90,90);
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer 1
+	this.betLbl = new cjs.Text("0", "bold 14px 'Arial'");
+	this.betLbl.name = "betLbl";
+	this.betLbl.textAlign = "center";
+	this.betLbl.lineHeight = 18;
+	this.betLbl.lineWidth = 100;
+	this.betLbl.setTransform(290,465.8);
+
+	this.decreaseBetBtn = new lib.DecreaseBet();
+	this.decreaseBetBtn.setTransform(266.8,497.3);
+
+	this.increaseBetBtn = new lib.IncreaseBet();
+	this.increaseBetBtn.setTransform(266.8,406.9);
+
 	this.statusBar = new lib.StatusBar();
 	this.statusBar.setTransform(179.5,29.5,1,1,0,0,0,179.5,30);
 
@@ -475,12 +525,12 @@ p.nominalBounds = new cjs.Rectangle(-1.5,-1.5,90,90);
 	this.coin.setTransform(262.1,243,1,1,0,0,0,70,70);
 
 	this.cashInBtn = new lib.CashInButton();
-	this.cashInBtn.setTransform(170.5,495.7,1,1,0,0,0,43.5,43.5);
+	this.cashInBtn.setTransform(127,452.2);
 
 	this.flipBtn = new lib.FlipButton();
-	this.flipBtn.setTransform(63.5,495.6,1,1,0,0,0,43.5,43.5);
+	this.flipBtn.setTransform(20,452.1);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.flipBtn},{t:this.cashInBtn},{t:this.coin},{t:this.meter},{t:this.statusBar}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.flipBtn},{t:this.cashInBtn},{t:this.coin},{t:this.meter},{t:this.statusBar},{t:this.increaseBetBtn},{t:this.decreaseBetBtn},{t:this.betLbl}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(179.5,279,359,541.1);
