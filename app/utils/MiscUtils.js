@@ -10,6 +10,17 @@
 			return x == 1 ? "heads" : "tails";
 		},
 		
+		//return the correct winning streak multiplier
+		winningMultiplier: function(streak/*int*/) {
+			var multiplier/*int*/ = 2;
+			if(streak < 4) {
+				multiplier = streak+1;
+			} else {
+				multiplier = 8;
+			}
+			return multiplier
+		},
+		
 		getPageWidth: function() {
 			var pixelRatio = (window.app) ? global.app.pixelRatio : 1;
 			if (window.navigator.standalone) { //iOS web home app mode

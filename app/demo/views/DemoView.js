@@ -69,9 +69,9 @@
 			}
 			
 			this._display.headsBtn.addEventListener("mousedown", this.choiceActions.bind(this));
-			this.setEnabled(this._display.headsBtn, false);
-			
+			this.coinToggle(this._display.headsBtn, true);
 			this._display.tailsBtn.addEventListener("mousedown", this.choiceActions.bind(this));
+			this.coinToggle(this._display.tailsBtn, false);
 			
 		},
 		
@@ -85,12 +85,27 @@
 			}
 		},
 		
+		coinToggle: function(mc/*DisplayObject*/, selected/*Boolean*/) {
+			if(selected) mc.alpha = 1;
+			else mc.alpha = 0.5;
+		},
+		
 		configure: function(balance/*float*/, highestScore/*float*/) {
 			this._display.statusBar.highestScoreTxt.text = highestScore;
 			this._display.statusBar.balanceTxt.text = balance;
 		},
 		
+		resetGame: function() {
+			this._betsPlaced = 0;
+			//this._display.coin.gotoAndStop(0);
+			this._display.betLbl.text = 0;
+			this.setEnabled(this._display.flipBtn, false);
+			this.setEnabled(this._display.decreaseBetBtn, false);
+			
+		},
+		
 		startCoinFlip: function() {
+			this._display.meter.visible = true;
 			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(true);
 			this._display.coin.gotoAndStop(1);
 		},
@@ -98,6 +113,11 @@
 		stopCoinFlip: function(result/*String*/) {
 			this._display.coin.gotoAndStop(result);
 			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(false);
+		},
+		
+		setMeter: function(streak/*int*/) {
+			if(streak >= 4) streak = 4;
+			this._display.meter.gotoAndStop(streak);
 		},
 		
 		updateBet: function(bet/*int*/) {
@@ -115,6 +135,10 @@
 		
 		updateBalance: function(balance/*float*/) {
 			this._display.statusBar.balanceTxt.text = balance;
+		},
+		
+		updateScore: function(score/*int*/) {
+			this._display.statusBar.scoreTxt.text = score;
 		},
 
 		align: function() {
@@ -151,13 +175,13 @@
 			switch (event.currentTarget) { 
 				case this._display.headsBtn:
 					this._coinSide = "heads";
-					this.setEnabled(this._display.headsBtn, false);
-					this.setEnabled(this._display.tailsBtn, true);
+					this.coinToggle(this._display.headsBtn, true);
+					this.coinToggle(this._display.tailsBtn, false);
 					break;
 				case this._display.tailsBtn:
-					this._coinSide = "tails;"
-					this.setEnabled(this._display.tailsBtn, false);
-					this.setEnabled(this._display.headsBtn, true);
+					this._coinSide = "tails";
+					this.coinToggle(this._display.headsBtn, false);
+					this.coinToggle(this._display.tailsBtn, true);
 					break;
 			}
 		},
