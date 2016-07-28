@@ -2,6 +2,7 @@
 	
 	//imports
 	var MyApp = global.MyApp,
+		MiscUtils = MyApp.MiscUtils,
 		DemoEvents = MyApp.DemoEvents;
 	
 	//class definition
@@ -36,7 +37,9 @@
 		},
 		
 		startFlip: function() {
-			console.log("startflip")
+			setTimeout(function(){ 
+				console.log(MiscUtils.headsOrTails()); 
+			}, 2000);
 		},
 		
 		cashIn: function() {
@@ -47,7 +50,7 @@
 			console.log("increaseBet");
 			if((this._totalBet + this.singleBet) <= this._gameData.balance) {
 				this._totalBet += this.singleBet;
-				this._gameData.balance - this.singleBet;
+				this._gameData.balance = this._gameData.balance - this.singleBet;
 				this._view.updateBalance(this._gameData.balance);
 				this._view.updateBet(this._totalBet);
 			}
@@ -56,7 +59,7 @@
 		decreaseBet: function() {
 			console.log("decreaseBet");
 			this._totalBet -= this.singleBet;
-			this._gameData.balance + this.singleBet;
+			this._gameData.balance = this._gameData.balance + this.singleBet;
 			this._view.updateBalance(this._gameData.balance);
 			this._view.updateBet(this._totalBet);
 		},

@@ -4,6 +4,12 @@
 	
 	MyApp.MiscUtils = {
 		
+		//randon num generator for coin flip
+		headsOrTails: function() {
+			var x = Math.floor((Math.random() * 2) + 1);
+			return x == 1 ? "heads" : "tails";
+		},
+		
 		getPageWidth: function() {
 			var pixelRatio = (window.app) ? global.app.pixelRatio : 1;
 			if (window.navigator.standalone) { //iOS web home app mode
