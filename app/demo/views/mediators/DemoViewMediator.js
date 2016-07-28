@@ -37,9 +37,12 @@
 		},
 		
 		startFlip: function() {
-			setTimeout(function(){ 
-				console.log(MiscUtils.headsOrTails()); 
-			}, 2000);
+			this._view.startCoinFlip();
+			var coinFlipFunction = function() {
+				this._view.stopCoinFlip(MiscUtils.headsOrTails());
+				this.processResult();
+			};
+			setTimeout(coinFlipFunction.bind(this), 3000);
 		},
 		
 		cashIn: function() {
@@ -47,7 +50,6 @@
 		},
 		
 		increaseBet: function() {
-			console.log("increaseBet");
 			if((this._totalBet + this.singleBet) <= this._gameData.balance) {
 				this._totalBet += this.singleBet;
 				this._gameData.balance = this._gameData.balance - this.singleBet;
@@ -57,7 +59,6 @@
 		},
 		
 		decreaseBet: function() {
-			console.log("decreaseBet");
 			this._totalBet -= this.singleBet;
 			this._gameData.balance = this._gameData.balance + this.singleBet;
 			this._view.updateBalance(this._gameData.balance);

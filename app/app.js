@@ -92,7 +92,7 @@
  
 		setupComponents: function() {
 			this.signalBus = new MyApp.SignalBus(this);
-			this.stageUpdater = new MyApp.StageUpdater(this);
+			this.stageUpdater = new MyApp.StageUpdater(this, true);
 		},
 		
 		setupCommands: function() {
