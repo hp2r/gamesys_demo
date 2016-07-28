@@ -86,8 +86,14 @@
 		updateBet: function(bet/*int*/) {
 			this._display.betLbl.text = bet;
 			
-			if(bet>0) this.setEnabled(this._display.decreaseBetBtn, true);
-			else this.setEnabled(this._display.decreaseBetBtn, false);
+			if(bet>0) {
+				this.setEnabled(this._display.decreaseBetBtn, true);
+				this.setEnabled(this._display.flipBtn, true);
+				this._display.coin.visible = true;
+				this._display.coin.gotoAndStop(0);
+			} else {
+				this.setEnabled(this._display.decreaseBetBtn, false);
+			}
 		},
 		
 		updateBalance: function(balance/*float*/) {
