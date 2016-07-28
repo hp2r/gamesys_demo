@@ -13,6 +13,8 @@
 		_view: null,
 		_signalBus: null,
 		_totalBet: null,
+		_score: 0,
+		_streak: 0,
 		singleBet: 5,
 		
 		init: function(demoApp) {
@@ -36,13 +38,36 @@
 			this._view.configure(this._gameData.balance, this._gameData.highestScore);
 		},
 		
+		resetGame: function() {
+			this._totalBet = 0;
+			this._view.resetGame();
+		},
+		
 		startFlip: function() {
 			this._view.startCoinFlip();
 			var coinFlipFunction = function() {
-				this._view.stopCoinFlip(MiscUtils.headsOrTails());
-				this.processResult();
+				var coinResult = MiscUtils.headsOrTails();
+				this._view.stopCoinFlip(coinResult);
+				this.processResult(coinResult);
 			};
 			setTimeout(coinFlipFunction.bind(this), 3000);
+		},
+		
+		processResult: function(result/*String*/) {
+			if(this._view._coinSide == result) {
+				//you won
+				this._streak ++;
+				this._gameData.balance += (this._totalBet * MiscUtils.winningMultiplier(this._streak));
+				this._score += (this._totalBet * MiscUtils.winningMultiplier(this._streak));
+				this._view.updateBalance(this._gameData.balance);
+			} else {
+				this._streak = 0;
+				this._score = 0;
+			}
+			this._view.setMeter(this._streak);
+			this.updateHighScore();
+			this._view.updateScore(this._score);
+			this.resetGame();
 		},
 		
 		cashIn: function() {
@@ -70,7 +95,9 @@
 		},
 		
 		updateHighScore: function() {
-			
+			if(this._score > this._gameData.highestScore) {
+				this._gameData.highestScore = this._score;
+			}
 		},
 		
 		onResize: function() {
