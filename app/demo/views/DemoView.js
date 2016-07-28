@@ -15,6 +15,7 @@
 		_demoApp: null,
 		_display: null,
 		_betsPlaced: 0,
+		_coinSide: "heads", //default
 		
 		flipBtn: null,
 		cashInBtn: null,
@@ -38,6 +39,7 @@
 			this.cashInSignal = new Signal();
 			this.increaseBetSignal = new Signal();
 			this.decreaseBetSignal = new Signal();
+			this.choiceSignal = new Signal();
 			
 			this._display = new lib.demo();
 			this._display.coin.visible = false;
@@ -66,6 +68,11 @@
 				this.setEnabled(this._display.decreaseBetBtn, false);
 			}
 			
+			this._display.headsBtn.addEventListener("mousedown", this.choiceActions.bind(this));
+			this.setEnabled(this._display.headsBtn, false);
+			
+			this._display.tailsBtn.addEventListener("mousedown", this.choiceActions.bind(this));
+			
 		},
 		
 		setEnabled: function(mc/*DisplayObject*/, enabled/*Boolean*/) {
@@ -81,6 +88,16 @@
 		configure: function(balance/*float*/, highestScore/*float*/) {
 			this._display.statusBar.highestScoreTxt.text = highestScore;
 			this._display.statusBar.balanceTxt.text = balance;
+		},
+		
+		startCoinFlip: function() {
+			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(true);
+			this._display.coin.gotoAndStop(1);
+		},
+		
+		stopCoinFlip: function(result/*String*/) {
+			this._display.coin.gotoAndStop(result);
+			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(false);
 		},
 		
 		updateBet: function(bet/*int*/) {
@@ -126,6 +143,21 @@
 					break;
 				case this._display.decreaseBetBtn:
 					this.decreaseBetSignal.dispatch();
+					break;
+			}
+		},
+		
+		choiceActions: function(event) {
+			switch (event.currentTarget) { 
+				case this._display.headsBtn:
+					this._coinSide = "heads";
+					this.setEnabled(this._display.headsBtn, false);
+					this.setEnabled(this._display.tailsBtn, true);
+					break;
+				case this._display.tailsBtn:
+					this._coinSide = "tails;"
+					this.setEnabled(this._display.tailsBtn, false);
+					this.setEnabled(this._display.headsBtn, true);
 					break;
 			}
 		},
