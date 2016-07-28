@@ -15,15 +15,13 @@
 		_demoApp: null,
 		_display: null,
 		_betsPlaced: 0,
-		_coinSide: "heads", //default
+		_coinSide: "heads", //default choice. User can change before placing a bet.
 		
 		flipBtn: null,
-		cashInBtn: null,
 		increaseBetBtn: null,
 		decreaseBetBtn: null,
 		
 		flipSignal: null,
-		cashInSignal: null,
 		increaseBetSignal: null,
 		decreaseBetSignal: null,
 		
@@ -36,7 +34,6 @@
 			//variables
 			this._updateBetSignal = new Signal();
 			this.flipSignal = new Signal();
-			this.cashInSignal = new Signal();
 			this.increaseBetSignal = new Signal();
 			this.decreaseBetSignal = new Signal();
 			this.choiceSignal = new Signal();
@@ -46,27 +43,18 @@
 			this._display.meter.visible = false;
 			
 			//gameMenu buttons
-			if (this._display.flipBtn) {
-				//this.flipBtn = new UIButton(this._display.flipBtn)
-				this._display.flipBtn.addEventListener("mousedown", this.gameActions.bind(this));
-				//this.flipBtn.setEnabled(false);
-				this.setEnabled(this._display.flipBtn, false);
-			}
-			if (this._display.cashInBtn) {
-				//this.cashInBtn = new UIButton(this._display.cashInBtn)
-				this._display.cashInBtn.addEventListener("mousedown", this.gameActions.bind(this));
-				//this.cashInBtn.setEnabled(false);
-				this.setEnabled(this._display.cashInBtn, false);
-			}
-			if (this._display.increaseBetBtn) {
-				//this.increaseBetBtn = new UIButton(this._display.increaseBetBtn);
-				this._display.increaseBetBtn.addEventListener("mousedown", this.betActions.bind(this));
-			}
-			if (this._display.decreaseBetBtn) {
-				//this.decreaseBetBtn = new UIButton(this._display.decreaseBetBtn);
-				this._display.decreaseBetBtn.addEventListener("mousedown", this.betActions.bind(this));
-				this.setEnabled(this._display.decreaseBetBtn, false);
-			}
+			
+			//Example of how the UIButton class would have been used. It is useful for setting the button type, action and button text
+			//this.flipBtn = new UIButton(this._display.flipBtn)
+			//this.flipBtn.setEnabled(false);
+			
+			//I couldnt get it to work with the JS Adobe Animate generates so doing it the old fashioned way. setEnabled could be seperated into its own class			
+			this._display.flipBtn.addEventListener("mousedown", this.gameActions.bind(this));
+			this.setEnabled(this._display.flipBtn, false);
+			
+			this._display.increaseBetBtn.addEventListener("mousedown", this.betActions.bind(this));
+			this._display.decreaseBetBtn.addEventListener("mousedown", this.betActions.bind(this));
+			this.setEnabled(this._display.decreaseBetBtn, false);
 			
 			this._display.headsBtn.addEventListener("mousedown", this.choiceActions.bind(this));
 			this.coinToggle(this._display.headsBtn, true);
@@ -75,6 +63,9 @@
 			
 		},
 		
+		/*
+		*Sets whether a ui button is enabled or disabled. disabled buttons are faded out.
+		*/
 		setEnabled: function(mc/*DisplayObject*/, enabled/*Boolean*/) {
 			if(enabled) {
 				mc.alpha = 1;
@@ -85,11 +76,17 @@
 			}
 		},
 		
+		/*
+		*Works differently to setEnabled in that faded out button signifies that it is not selected. It is still clickable
+		*/
 		coinToggle: function(mc/*DisplayObject*/, selected/*Boolean*/) {
 			if(selected) mc.alpha = 1;
 			else mc.alpha = 0.5;
 		},
 		
+		/*
+		*Gets data from mediator when the Model is ready. A bigger application would send more than the below.
+		*/
 		configure: function(balance/*float*/, highestScore/*float*/) {
 			this._display.statusBar.highestScoreTxt.text = highestScore;
 			this._display.statusBar.balanceTxt.text = balance;
@@ -97,7 +94,6 @@
 		
 		resetGame: function() {
 			this._betsPlaced = 0;
-			//this._display.coin.gotoAndStop(0);
 			this._display.betLbl.text = 0;
 			this.setEnabled(this._display.flipBtn, false);
 			this.setEnabled(this._display.decreaseBetBtn, false);
@@ -106,15 +102,18 @@
 		
 		startCoinFlip: function() {
 			this._display.meter.visible = true;
-			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(true);
+			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(true); //This would be useful if MC contained an animation. Allows smooth animations.
 			this._display.coin.gotoAndStop(1);
 		},
 		
 		stopCoinFlip: function(result/*String*/) {
 			this._display.coin.gotoAndStop(result);
-			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(false);
+			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(false); //This reduces the frame rate again to save CPU
 		},
 		
+		/*
+		*Sets the Streak meter. 
+		*/ 
 		setMeter: function(streak/*int*/) {
 			if(streak >= 4) streak = 4;
 			this._display.meter.gotoAndStop(streak);
@@ -141,14 +140,6 @@
 			this._display.statusBar.scoreTxt.text = score;
 		},
 
-		align: function() {
-			
-		},
-		
-		updateLanguage: function() {
-			this.align();
-		},
-		
 		gameActions: function(event) {
 			switch (event.currentTarget) { 
 				case this._display.flipBtn:

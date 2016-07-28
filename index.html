@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!--This full viewport isnt necessary for this project but it works well for web apps in browser and the home screen-->
 	<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=0.6, minimum-scale=0.6, maximum-scale=0.6, user-scalable=no, minimal-ui" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	
-	<!--<link rel="stylesheet" type="text/css" href="/css/style.css">-->
+
+	<style>
+	body {
+		background-color: #93B874;
+	}
+	</style>
 	
 	<!-- config -->
 	<script>
@@ -29,8 +34,6 @@
 	<script src="app/utils/SignalBus.js"></script>
 	<script src="app/utils/MiscUtils.js"></script>
 	<script src="app/demo/signals/DemoEvents.js"></script>
-	
-	<!-- demo -->
 	<script src="flash/demo.js"></script>
 	<script src="app/demo/models/GameData.js"></script>
 	<script src="app/demo/views/UIButton.js"></script>
