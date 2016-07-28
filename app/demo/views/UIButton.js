@@ -56,7 +56,7 @@
 			if (this._clip.gotoAndStop) this._clip.gotoAndStop(0);
 
 			//retrieve the pre-defined label
-			if (this._clip.label) { this._label = this._clip.label.text; XLG.GameUtils.makeTextResizeable(this._clip.label);}
+			//if (this._clip.label) { this._label = this._clip.label.text; XLG.GameUtils.makeTextResizeable(this._clip.label);}
 			//also retrieve the 'toggled' label if this is a toggle button
 			if (this._isToggleButton) { this.getToggledLabel(); }
 
@@ -173,19 +173,19 @@
 			if (this._clip.label) {
 				if (!this._toggled)	this._clip.label.text = this._label || "";
 				if (this._toggled)	this._clip.label.text = this._toggledLabel || "";
-				if(this._clip.label)XLG.GameUtils.makeTextResizeable(this._clip.label);
+				//if(this._clip.label)XLG.GameUtils.makeTextResizeable(this._clip.label);
 			}
 			
 			if (this._clip.untoggledLabel) { //some hacky stuff to get lobby game buttons translating
 				this._clip.untoggledLabel.text = this._label || "";
-				XLG.GameUtils.makeTextResizeable(this._clip.untoggledLabel);
+				//XLG.GameUtils.makeTextResizeable(this._clip.untoggledLabel);
 			}
 
 			if (this._clip.untoggledLabel && this._clip.toggledLabel) {
 				this._clip.untoggledLabel.text = this._label || "";
 				this._clip.toggledLabel.text = this._toggledLabel || "";
-				XLG.GameUtils.makeTextResizeable(this._clip.untoggledLabel);
-				XLG.GameUtils.makeTextResizeable(this._clip.toggledLabel);
+				//XLG.GameUtils.makeTextResizeable(this._clip.untoggledLabel);
+				//XLG.GameUtils.makeTextResizeable(this._clip.toggledLabel);
 			}
 			
 		},
@@ -196,8 +196,8 @@
 			if (this._clip.label) this._toggledLabel = this._clip.label.text;
 			else this._toggledLabel = this._label;
 			this._clip.gotoAndStop(this.FRAME_NORMAL);
-			if(this._toggledLabel)XLG.GameUtils.makeTextResizeable(this._toggledLabel);
-			if(this._clip.label)XLG.GameUtils.makeTextResizeable(this._clip.label);
+			//if(this._toggledLabel)XLG.GameUtils.makeTextResizeable(this._toggledLabel);
+			//if(this._clip.label)XLG.GameUtils.makeTextResizeable(this._clip.label);
 		},
 
 		mouseHandler: function(evt) {
@@ -211,7 +211,7 @@
 					if (this._clickSound) {
 						//channel = _clickSound.play();
 						//if (channel) channel.soundTransform = new SoundTransform(_clickVolume);
-					} else if (this._useDefaultClickSound && XLG.UIButton.defaultClickSound) {
+					} else if (this._useDefaultClickSound /*&& XLG.UIButton.defaultClickSound*/) {
 						//channel = UIButton.defaultClickSound.play();
 						//if (channel) channel.soundTransform = new SoundTransform(UIButton.defaultClickVolume);
 					}

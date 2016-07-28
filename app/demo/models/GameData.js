@@ -4,8 +4,8 @@
 	MyApp.GameData = function() { this.init.apply(this, arguments); };
 	MyApp.GameData.prototype = {
 		coinState: 0,
-		balance: "",
-		highestScore: "",
+		balance: 1000,
+		highestScore: 10000,
 		
 		init: function() { }
 	};
