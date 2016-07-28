@@ -26,12 +26,10 @@
 			this.pixelRatio =  (window.devicePixelRatio || 1);			
 			/*fix for devices with devicePixelRatio = 4 - slow down problems in chrome landscape */
 			if(this.pixelRatio >=  2)this.pixelRatio = 2;
-			
-			//document.title = Constants.PAGE_TITLE;
 
 			this.setupStage();
 			this.setupComponents();
-			this.loadGraphics();
+			//this.loadGraphics(); //Only needed if we had a spritesheet. All graphics are vectors
 			this.loadDemo();
 
 		},
@@ -42,7 +40,7 @@
 			
 			//create application stage
 			this.canvas = document.createElement("canvas");
-			this.canvas.id = "DemoAppCanvasStage";//Constants.CANVAS_ID;
+			this.canvas.id = "DemoAppCanvasStage";
 			this.canvas.style.position = "absolute";
 			
 			document.body.style.display = "inline-block"; //ensure body size is updated when game is nested in iframes
@@ -57,10 +55,6 @@
 			setTimeout( (function(){ this.scaleApplication(); }).bind(this), 600);
 			window.addEventListener("resize", this.scaleApplication.bind(this) );
 			this.containerElement.appendChild(this.canvas);
-			
-			//var Ticker = createjs.Ticker;
-			//Ticker.timingMode = Ticker.RAF;
-			//Ticker.addEventListener("tick", this.stage);
 			
 			this.toggleScrollLock(true);
 	
@@ -96,11 +90,7 @@
 		},
 		
 		setupCommands: function() {
-			//this.appStartupCommand = new MyApp.AppStartupCommand(this);
-		},
-		
-		setToTop: function(mc) {
-			
+			//this.appStartupCommand = new MyApp.AppStartupCommand(this); //Would have used this for larger multi interface applications
 		},
 		
 		createContainer: function() {
@@ -168,8 +158,6 @@
 			setTimeout( (function() { this.stage.update(); }).bind(this), 10);
 			setTimeout( (function() { this.stage.update(); }).bind(this), 50);
 			setTimeout( (function() { this.stage.update(); }).bind(this), 100);
-			//if (this.isIOS) setTimeout( scrollTo.bind(window), 500, 0, 0 ); //fixes some buggy safari misalignment issue
-			//if (this.isIOS) setTimeout( scrollTo.bind(window), 500, 0, 110 ); //fixes some buggy safari misalignment issue
 			
 			this.canvas.style.display = 'inline-block';
 			this.containerElement.style.display = "inline-block";

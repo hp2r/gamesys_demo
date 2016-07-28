@@ -25,10 +25,8 @@
 			this._view = this._demoApp.demoView;
 			
 			this._view.flipSignal.add(this.startFlip.bind(this));
-			this._view.cashInSignal.add(this.cashIn.bind(this));
 			this._view.increaseBetSignal.add(this.increaseBet.bind(this));
 			this._view.decreaseBetSignal.add(this.decreaseBet.bind(this));
-			this._view._updateBetSignal.add(this.updateTotalBet.bind(this));
 		
 			this._signalBus.add(DemoEvents.MODEL_READY, this.setupModel.bind(this));
 			this._signalBus.add(DemoEvents.RESIZE, this.onResize.bind(this) );
@@ -46,11 +44,11 @@
 		startFlip: function() {
 			this._view.startCoinFlip();
 			var coinFlipFunction = function() {
-				var coinResult = MiscUtils.headsOrTails();
+				var coinResult = MiscUtils.headsOrTails(); //returns "heads" or "tails"
 				this._view.stopCoinFlip(coinResult);
 				this.processResult(coinResult);
 			};
-			setTimeout(coinFlipFunction.bind(this), 3000);
+			setTimeout(coinFlipFunction.bind(this), 3000); //TODO: Make the time duration a const variable.
 		},
 		
 		processResult: function(result/*String*/) {
@@ -61,6 +59,7 @@
 				this._score += (this._totalBet * MiscUtils.winningMultiplier(this._streak));
 				this._view.updateBalance(this._gameData.balance);
 			} else {
+				//you lost
 				this._streak = 0;
 				this._score = 0;
 			}
@@ -70,12 +69,8 @@
 			this.resetGame();
 		},
 		
-		cashIn: function() {
-			console.log("cashIn")
-		},
-		
 		increaseBet: function() {
-			if((this._totalBet + this.singleBet) <= this._gameData.balance) {
+			if((this._totalBet + this.singleBet) <= this._gameData.balance) { //ensures that the bet doesnt exceed the balance
 				this._totalBet += this.singleBet;
 				this._gameData.balance = this._gameData.balance - this.singleBet;
 				this._view.updateBalance(this._gameData.balance);
@@ -90,10 +85,6 @@
 			this._view.updateBet(this._totalBet);
 		},
 		
-		updateTotalBet : function() {
-			this._gameData.balance -= this._view.getTotalBet();
-		},
-		
 		updateHighScore: function() {
 			if(this._score > this._gameData.highestScore) {
 				this._gameData.highestScore = this._score;
@@ -101,7 +92,7 @@
 		},
 		
 		onResize: function() {
-			this._view.align();
+			console.log("resize interface");
 		}
 		
 	};

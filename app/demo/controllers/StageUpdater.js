@@ -11,8 +11,6 @@
 	MyApp.StageUpdater.prototype = {
 		
 		//to try to keep things simple, there will only be one instance of StageUpdater
-		//this will try to accomodate listening for as many system, lobby,
-		//and game events (once a game is started) as possible
 		
 		app: null,
 		enabled: true,
@@ -37,17 +35,11 @@
 			this._handleTickBound = this.handleTick.bind(this);
 			Ticker.addEventListener("tick", this._handleTickBound);
 			
-			this.app.signalBus.add(DemoEvents.MODEL_READY, this.onAppModelReady.bind(this) );
-			
 			//events the will cause updates
 			this.app.stage.addEventListener("mousedown", this._queueUpdateBound);
 			this.app.stage.addEventListener("pressup", this._queueUpdateBound);
 			this.app.stage.addEventListener("pressmove", this._queueUpdateBound);
 			this.app.signalBus.add(DemoEvents.MODEL_READY, this._queueUpdateBound);
-			//this.app.signalBus.add(CoreEvents.BALANCE_LOADED, this._queueUpdateBound);
-			//this.app.signalBus.add(CoreEvents.LANGUAGE_LOADED, this._queueUpdateBound);
-			//this.app.signalBus.add(CoreEvents.SHOW_MESSAGE, this._queueUpdateBound);
-			//this.app.signalBus.add(CoreEvents.SHOW_ERROR, this._queueUpdateBound);
 			//app.js already takes care of updating the stage on window resizes
 			
 			//update every so often as insurance
@@ -63,24 +55,6 @@
 		stop: function() {
 			clearInterval( this._updateInterval );
 			Ticker.removeEventListener("tick", this._handleTickBound);
-		},
-		
-		onAppModelReady: function(/*signal*/) {
-			//by this time the lobby has been instantiated and we can add more event listeners
-			if (this.app.lobby) {
-				this.app.lobby.signalBus.add(CoreEvents.MODEL_READY, this._queueUpdateBound);
-				this.app.signalBus.add(XLG.LobbyEvents.TOGGLE_LOBBY_UI, this._queueUpdateBound);
-				this.app.lobby.signalBus.add(XLG.LobbyEvents.LOAD_GAME, this._queueUpdateBound);
-				this.app.lobby.signalBus.add(XLG.LobbyEvents.GAME_LOADED, this.onGameStarted.bind(this) );
-			}
-		},
-		
-		onGameStarted: function(/*signal*/) {
-			//by this time the game has been instantiated and we can add even more event listeners
-			this.app.game.signalBus.add(CoreEvents.MODEL_READY, this._queueUpdateBound);
-			this.app.game.signalBus.add(CoreEvents.SPLASH_CLICKED, this._queueUpdateBound);
-			this.app.game.signalBus.add(CoreEvents.COUNTDOWN_TICK, this._queueUpdateBound);
-			this.app.game.signalBus.add(XLG.SocketDataEvents.HANDLE_RESULT, this._queueUpdateBound);
 		},
 		
 		queueUpdate: function() {

@@ -4,7 +4,7 @@
 	
 	MyApp.MiscUtils = {
 		
-		//randon num generator for coin flip
+		//random num generator for coin flip
 		headsOrTails: function() {
 			var x = Math.floor((Math.random() * 2) + 1);
 			return x == 1 ? "heads" : "tails";
@@ -14,13 +14,14 @@
 		winningMultiplier: function(streak/*int*/) {
 			var multiplier/*int*/ = 2;
 			if(streak < 4) {
-				multiplier = streak+1;
+				multiplier = streak+1; //x2,x3,x4
 			} else {
-				multiplier = 8;
+				multiplier = 8; //x8
 			}
 			return multiplier
 		},
 		
+		//These helper functions have been usefult in previous projects. Most are not needed here but could be useful if expanding the app
 		getPageWidth: function() {
 			var pixelRatio = (window.app) ? global.app.pixelRatio : 1;
 			if (window.navigator.standalone) { //iOS web home app mode
