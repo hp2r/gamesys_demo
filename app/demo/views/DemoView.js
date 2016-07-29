@@ -88,12 +88,12 @@
 		/*
 		*Gets data from mediator when the Model is ready. A bigger application would send more than the below.
 		*/
-		configure: function(balance/*float*/, highestScore/*float*/) {
+		configure: function(balance/*float*/, highestScore/*float*/, sound_loc/*String*/) {
 			this._display.statusBar.highestScoreTxt.text = highestScore;
 			this._display.statusBar.balanceTxt.text = balance;
 			
 			//load a sound
-			createjs.Sound.registerSound("assets/coin-flip.wav", this._soundID)
+			createjs.Sound.registerSound(sound_loc, this._soundID);
 		},
 		
 		resetGame: function() {
