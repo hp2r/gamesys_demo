@@ -16,6 +16,7 @@
 		_display: null,
 		_betsPlaced: 0,
 		_coinSide: "heads", //default choice. User can change before placing a bet.
+		_soundID: "coinflip",
 		
 		flipBtn: null,
 		increaseBetBtn: null,
@@ -90,6 +91,9 @@
 		configure: function(balance/*float*/, highestScore/*float*/) {
 			this._display.statusBar.highestScoreTxt.text = highestScore;
 			this._display.statusBar.balanceTxt.text = balance;
+			
+			//load a sound
+			createjs.Sound.registerSound("assets/coin-flip.wav", this._soundID)
 		},
 		
 		resetGame: function() {
@@ -101,6 +105,9 @@
 		},
 		
 		startCoinFlip: function() {
+			//play a sound
+			createjs.Sound.play(this._soundID);
+			
 			this._display.meter.visible = true;
 			//this._demoApp.app.stageUpdater.setUsingTimelineGraphic(true); //This would be useful if MC contained an animation. Allows smooth animations.
 			this._display.coin.gotoAndStop(1);
