@@ -33,7 +33,7 @@
 		},
 		
 		setupModel : function() {
-			this._view.configure(this._gameData.balance, this._gameData.highestScore);
+			this._view.configure(this._gameData.balance, this._gameData.highestScore, this._gameData.sound_loc);
 		},
 		
 		resetGame: function() {
